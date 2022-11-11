@@ -1,38 +1,27 @@
+from Repositorios.UserRepositorio import UserRepositorio
 from Modelos.User import User
 
 class ControladorUser():
     def __init__(self):
-        print("Creando ControladorUsuario")
+        self.repositorioUser = UserRepositorio()
 
     def index(self):
-        print("Listar todos los usuarios")
-        unUsuario = {
-            "usuario": "abc123",
-            "correo": "juan@gmail.com",
-            "contraseña": "Juan",
-         }
-        return [unUsuario]
+        return self.repositorioUser.findAll()
 
     def create(self,infoUser):
-        print("Crear un usuario")
-        elUsuario = User(infoUser)
-        return elUsuario.__dict__
+        nuevoUser = User(infoUser)
+        return self.repositorioUser.save(nuevoUser)
 
-    def show(self,id):
-        print("Mostrando un usuario con id ",id)
-        elUsuario = {
-            "usuario": "abc123",
-            "correo": "juan@gmail.com",
-            "contraseña": "Juan",
-        }
-        return elUsuario
+    def show(self, id):
+        elUser = User(self.repositorioUser.findById(id))
+        return elUser.__dict__
 
-    def update(self,id,infoEstudiante):
-        print("Actualizando usuario con id ",id)
-        print("Actualizando usuario con id ", id)
-        elUsuario = User(infoEstudiante)
-        return elUsuario.__dict__
+    def update(self,id,infoUser):
+        actualUser = User(self.repositorioUser.findById(id))
+        actualUser.usuario = infoUser['usuario']
+        actualUser.correo = infoUser['correo']
+        actualUser.contrasena = infoUser['contrasena']
+        return self.repositorioUser.save(actualUser)
 
     def delete(self,id):
-        print("Elimiando usuario con id ",id)
-        return {"deleted_count": 1}
+       return self.repositorioUser.delete(id)
