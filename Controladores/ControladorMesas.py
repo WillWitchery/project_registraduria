@@ -1,9 +1,12 @@
 from Repositorios.MesasRepositorio import MesasRepositorio
+from Repositorios.CandidatosRepositorio import CandidatosRepositorio
 from Modelos.Mesas import Mesas
+from Modelos.Candidatos import Candidatos
 
 class ControladorMesas():
     def __init__(self):
         self.repositorioMesas = MesasRepositorio()
+        self.repositorioCandidatos = CandidatosRepositorio()
 
     def index(self):
         return self.repositorioMesas.findAll()
@@ -23,6 +26,11 @@ class ControladorMesas():
         actualMesa.candidatos_votar = infoMesa['candidatos_votar']
         return self.repositorioMesas.save(actualMesa)
 
-
     def delete(self,id):
        return self.repositorioMesas.delete(id)
+    
+    def asignarCandidato(self, id, id_c):
+        actualMesa = Mesas(self.repositorioMesas.findById(id))
+        actualCandidato = Candidatos(self.repositorioCandidatos.findById(id_c))
+        actualMesa.candidato = actualCandidato
+        return self.repositorioMesas.save(actualMesa)

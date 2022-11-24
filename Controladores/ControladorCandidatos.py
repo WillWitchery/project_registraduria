@@ -35,4 +35,3 @@ class ControladorCandidatos():
         actualPartido = Partidos(self.repositorioPartidos.findById(id_p))
         actualCandidato.partido = actualPartido
         return self.repositorioCandidatos.save(actualCandidato)
-
